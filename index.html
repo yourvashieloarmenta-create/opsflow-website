@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpsFlow Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #016F55;
+    --green-dark: #014d3b;
+    --green-light: #E5F9D8;
+    --green-mid: #D1F0BB;
+    --cream: #F9FDFF;
+    --off-white: #f4faf7;
+    --text: #1a2e28;
+    --muted: #5a7a70;
+    --border: rgba(1,111,85,0.15);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Poppins', sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 68px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-icon {
+    width: 30px; height: 30px; background: var(--green);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  }
+  .nav-logo-icon svg { width: 18px; height: 18px; fill: #fff; }
+  .nav-logo-text { font-size: 15px; font-weight: 600; color: var(--green); letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { text-decoration: none; font-size: 13px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--green); }
+  .nav-cta {
+    background: var(--green); color: #fff; border: none;
+    padding: 9px 20px; border-radius: 100px; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: 'Poppins', sans-serif; letter-spacing: 0.2px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--green-dark); }
+
+  /* HERO */
+  .hero {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 68px);
+    background: var(--green-light);
+  }
+  .hero-content {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 6% 80px 8%;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; border: 1px solid var(--border);
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 12px; font-weight: 500; color: var(--green);
+    margin-bottom: 28px; width: fit-content;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(38px, 5vw, 62px);
+    line-height: 1.1;
+    color: var(--green-dark);
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+  }
+  .hero-title em { font-style: italic; color: var(--green); }
+  .hero-sub {
+    font-size: 16px; color: var(--muted); max-width: 420px;
+    margin-bottom: 40px; line-height: 1.7; font-weight: 400;
+  }
+  .hero-actions { display: flex; gap: 14px; align-items: center; }
+  .btn-primary {
+    background: var(--green); color: #fff;
+    padding: 14px 28px; border-radius: 100px;
+    font-size: 14px; font-weight: 500; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-outline {
+    color: var(--green); border: 1.5px solid var(--green);
+    padding: 13px 28px; border-radius: 100px;
+    font-size: 14px; font-weight: 500; text-decoration: none;
+    transition: background 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { background: rgba(1,111,85,0.07); }
+  .hero-stats {
+    display: flex; gap: 32px; margin-top: 52px;
+    padding-top: 32px; border-top: 1px solid var(--border);
+  }
+  .stat-num { font-size: 26px; font-weight: 700; color: var(--green); line-height: 1; }
+  .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  .hero-visual {
+    position: relative; overflow: hidden;
+    background: linear-gradient(145deg, #c8edc0 0%, #94d9b5 100%);
+  }
+  .hero-img-placeholder {
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px;
+  }
+  .hero-card-float {
+    position: absolute; bottom: 40px; left: -24px;
+    background: #fff; border-radius: 16px; padding: 16px 20px;
+    box-shadow: 0 8px 32px rgba(1,111,85,0.15);
+    width: 220px;
+  }
+  .hero-card-float-2 {
+    position: absolute; top: 40px; right: -16px;
+    background: var(--green); border-radius: 16px; padding: 16px 20px;
+    width: 200px;
+  }
+  .float-label { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .float-value { font-size: 22px; font-weight: 700; color: var(--green); margin-top: 4px; }
+  .float-label-2 { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; }
+  .float-value-2 { font-size: 22px; font-weight: 700; color: #fff; margin-top: 4px; }
+  .hero-bars { display: flex; align-items: flex-end; gap: 6px; margin-top: 12px; height: 36px; }
+  .hero-bar { width: 20px; background: var(--green-mid); border-radius: 3px; }
+  .hero-bar:nth-child(2) { background: var(--green); height: 65%; }
+  .hero-bar:nth-child(3) { background: var(--green); height: 80%; }
+  .hero-bar:nth-child(4) { background: var(--green); height: 100%; }
+  .hero-bar:nth-child(1) { height: 45%; }
+  .hero-bar:nth-child(5) { height: 55%; }
+
+  /* LOGOS */
+  .logos-strip {
+    background: #fff; padding: 24px 8%;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 48px; overflow: hidden;
+  }
+  .logos-label { font-size: 12px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+  .logo-items { display: flex; gap: 40px; align-items: center; }
+  .logo-item { font-size: 14px; font-weight: 600; color: #bbb; letter-spacing: -0.3px; }
+
+  /* SECTION SHARED */
+  section { padding: 80px 8%; }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 12px; font-weight: 600; color: var(--green);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;
+  }
+  .section-tag::before { content: ''; display: block; width: 18px; height: 2px; background: var(--green); }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.15; color: var(--green-dark);
+    letter-spacing: -0.5px;
+  }
+  .section-sub { font-size: 16px; color: var(--muted); max-width: 520px; margin-top: 16px; line-height: 1.7; }
+
+  /* ABOUT */
+  .about { background: #fff; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual {
+    background: var(--green-light); border-radius: 24px; aspect-ratio: 4/5;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .about-badge {
+    position: absolute; bottom: 28px; right: 28px;
+    background: var(--green); color: #fff; border-radius: 14px;
+    padding: 16px 20px; text-align: center;
+  }
+  .about-badge-num { font-size: 28px; font-weight: 700; line-height: 1; }
+  .about-badge-txt { font-size: 11px; opacity: 0.8; margin-top: 4px; }
+  .about-inner { display: flex; flex-direction: column; gap: 28px; }
+  .about-check-list { display: flex; flex-direction: column; gap: 14px; }
+  .check-item { display: flex; align-items: flex-start; gap: 12px; }
+  .check-icon {
+    width: 22px; height: 22px; background: var(--green-light);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
+  }
+  .check-icon::before { content: '✓'; font-size: 11px; color: var(--green); font-weight: 700; }
+  .check-text { font-size: 15px; color: var(--text); line-height: 1.5; }
+
+  /* SERVICES */
+  .services { background: var(--off-white); }
+  .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .service-card {
+    background: #fff; border-radius: 20px; padding: 32px 28px;
+    border: 1px solid var(--border); transition: border-color 0.2s, transform 0.2s;
+  }
+  .service-card:hover { border-color: var(--green); transform: translateY(-3px); }
+  .service-icon {
+    width: 48px; height: 48px; background: var(--green-light);
+    border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; font-size: 22px;
+  }
+  .service-name { font-size: 17px; font-weight: 600; color: var(--green-dark); margin-bottom: 10px; }
+  .service-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* PROCESS */
+  .process { background: var(--green-dark); }
+  .process .section-tag { color: #9fe1cb; }
+  .process .section-tag::before { background: #9fe1cb; }
+  .process .section-title { color: #fff; }
+  .process .section-sub { color: rgba(255,255,255,0.6); }
+  .process-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 52px; }
+  .process-step {
+    background: rgba(255,255,255,0.05); padding: 36px 28px;
+    border: 1px solid rgba(255,255,255,0.08); position: relative;
+  }
+  .process-step:first-child { border-radius: 16px 0 0 16px; }
+  .process-step:last-child { border-radius: 0 16px 16px 0; }
+  .step-num {
+    font-size: 11px; font-weight: 700; color: #5dcaa5;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;
+  }
+  .step-title { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 12px; }
+  .step-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+  /* TESTIMONIALS */
+  .testimonials { background: #fff; }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+  .testi-card {
+    background: var(--green-light); border-radius: 20px; padding: 28px 24px;
+    border: 1px solid rgba(1,111,85,0.1);
+  }
+  .testi-stars { color: var(--green); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+  .testi-quote { font-size: 15px; color: var(--text); line-height: 1.7; font-style: italic; margin-bottom: 24px; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: #fff;
+  }
+  .testi-name { font-size: 14px; font-weight: 600; color: var(--green-dark); }
+  .testi-role { font-size: 12px; color: var(--muted); }
+
+  /* CONTACT */
+  .contact { background: var(--off-white); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .contact-info { display: flex; flex-direction: column; gap: 32px; }
+  .contact-items { display: flex; flex-direction: column; gap: 18px; }
+  .contact-item { display: flex; align-items: center; gap: 14px; }
+  .contact-item-icon {
+    width: 40px; height: 40px; background: var(--green-light);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0;
+  }
+  .contact-item-label { font-size: 11px; color: var(--muted); font-weight: 500; }
+  .contact-item-val { font-size: 14px; color: var(--text); font-weight: 500; }
+  .form-card {
+    background: #fff; border-radius: 24px; padding: 40px 36px;
+    border: 1px solid var(--border);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .form-label { font-size: 12px; font-weight: 600; color: var(--green); text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-input {
+    background: var(--off-white); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 11px 14px; font-size: 14px; font-family: 'Poppins', sans-serif;
+    color: var(--text); outline: none; transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--green); }
+  .form-input::placeholder { color: #b0c4be; }
+  textarea.form-input { resize: none; height: 100px; }
+  .btn-submit {
+    width: 100%; background: var(--green); color: #fff;
+    border: none; padding: 14px; border-radius: 100px;
+    font-size: 14px; font-weight: 600; font-family: 'Poppins', sans-serif;
+    cursor: pointer; transition: background 0.2s; margin-top: 8px;
+  }
+  .btn-submit:hover { background: var(--green-dark); }
+
+  /* FOOTER */
+  footer {
+    background: var(--green-dark); color: rgba(255,255,255,0.6);
+    padding: 60px 8% 32px;
+  }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .footer-logo-icon {
+    width: 28px; height: 28px; background: rgba(255,255,255,0.15);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  }
+  .footer-logo-icon svg { width: 16px; height: 16px; fill: #fff; }
+  .footer-logo-text { font-size: 14px; font-weight: 600; color: #fff; }
+  .footer-about { font-size: 13px; line-height: 1.7; max-width: 240px; }
+  .footer-heading { font-size: 12px; font-weight: 600; color: #fff; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; }
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a { font-size: 13px; color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: #9fe1cb; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-size: 12px; }
+  .footer-socials { display: flex; gap: 16px; }
+  .social-btn {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; cursor: pointer; transition: background 0.2s;
+    color: #fff; text-decoration: none;
+  }
+  .social-btn:hover { background: rgba(255,255,255,0.15); }
+
+  /* visual placeholder lines */
+  .vis-lines { width: 80%; }
+  .vis-line { height: 10px; background: rgba(1,111,85,0.15); border-radius: 5px; margin: 10px auto; }
+  .vis-line:nth-child(1) { width: 70%; }
+  .vis-line:nth-child(2) { width: 55%; }
+  .vis-line:nth-child(3) { width: 65%; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <span class="nav-logo-text">OpsFlow Solutions</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Book a Call</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Virtual Assistant & Operations Support</div>
+    <h1 class="hero-title">Simplify Your<br><em>Operations.</em><br>Grow Faster.</h1>
+    <p class="hero-sub">We handle your admin, systems, and daily operations so you can focus on growing your business — not managing tasks.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book a Discovery Call</a>
+      <a href="#services" class="btn-outline">Our Services</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Years of Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Clients Supported</div>
+      </div>
+      <div>
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Industries Served</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-img-placeholder">
+      <div class="vis-lines">
+        <div class="vis-line"></div>
+        <div class="vis-line"></div>
+        <div class="vis-line"></div>
+      </div>
+    </div>
+    <div class="hero-card-float">
+      <div class="float-label">Tasks Completed</div>
+      <div class="float-value">1,200+</div>
+      <div class="hero-bars">
+        <div class="hero-bar"></div>
+        <div class="hero-bar"></div>
+        <div class="hero-bar"></div>
+        <div class="hero-bar"></div>
+        <div class="hero-bar"></div>
+      </div>
+    </div>
+    <div class="hero-card-float-2">
+      <div class="float-label-2">Client Satisfaction</div>
+      <div class="float-value-2">98%</div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS STRIP -->
+<div class="logos-strip">
+  <span class="logos-label">Trusted by businesses in</span>
+  <div class="logo-items">
+    <span class="logo-item">Roofing</span>
+    <span class="logo-item">Dental</span>
+    <span class="logo-item">MedSpa</span>
+    <span class="logo-item">Real Estate</span>
+    <span class="logo-item">E-commerce</span>
+    <span class="logo-item">Consulting</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual">
+    <div class="vis-lines">
+      <div class="vis-line"></div>
+      <div class="vis-line"></div>
+      <div class="vis-line"></div>
+    </div>
+    <div class="about-badge">
+      <div class="about-badge-num">6+</div>
+      <div class="about-badge-txt">Years Experience</div>
+    </div>
+  </div>
+  <div class="about-inner">
+    <div>
+      <div class="section-tag">About OpsFlow</div>
+      <h2 class="section-title">Your Dedicated<br>Operations Partner</h2>
+      <p class="section-sub">With over 6 years of experience supporting business owners across industries, we provide reliable backend support that keeps your operations running smoothly.</p>
+    </div>
+    <div class="about-check-list">
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <span class="check-text"><strong>Admin & CRM Management</strong> — Keep your systems organized and your pipeline moving without lifting a finger.</span>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <span class="check-text"><strong>Social Media Execution</strong> — Consistent posting and engagement managed for you, on your schedule.</span>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <span class="check-text"><strong>Workflow Automation</strong> — Save hours each week with smart automations tailored to how your business works.</span>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"></div>
+        <span class="check-text"><strong>Dedicated Virtual Support</strong> — A consistent team you can rely on, without constant follow-ups.</span>
+      </div>
+    </div>
+    <a href="#services" class="btn-primary" style="width:fit-content;">View Our Services</a>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-tag">What We Do</div>
+      <h2 class="section-title">Services That Scale<br>With Your Business</h2>
+    </div>
+    <a href="#contact" class="btn-primary" style="flex-shrink:0;">Get Started →</a>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">📋</div>
+      <div class="service-name">Admin Support</div>
+      <div class="service-desc">Email management, scheduling, data entry, reporting, and all the daily tasks that eat into your focus time.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🗂️</div>
+      <div class="service-name">CRM Management</div>
+      <div class="service-desc">Set up, clean, and maintain your CRM so leads never fall through the cracks and follow-ups happen on time.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚙️</div>
+      <div class="service-name">Process Automation</div>
+      <div class="service-desc">Identify repetitive tasks and automate them using tools like Zapier, Make, and your existing software stack.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📱</div>
+      <div class="service-name">Social Media</div>
+      <div class="service-desc">Content scheduling, caption writing, engagement monitoring, and analytics reporting across your platforms.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📞</div>
+      <div class="service-name">Customer Outreach</div>
+      <div class="service-desc">Follow-up sequences, appointment reminders, review requests, and re-engagement campaigns done for you.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📊</div>
+      <div class="service-name">Reporting & Insights</div>
+      <div class="service-desc">Weekly and monthly reports on KPIs, team performance, and operational metrics — clear and actionable.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-tag">How It Works</div>
+  <h2 class="section-title">Up and Running<br>in Three Simple Steps</h2>
+  <p class="section-sub">We make onboarding painless. From first call to fully operational, we have a clear process to get you supported fast.</p>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-num">Step 01</div>
+      <div class="step-title">Consultation</div>
+      <div class="step-desc">We start with an in-depth discovery call to understand your operational challenges, goals, and current systems. No generic packages — only custom-fit support.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">Step 02</div>
+      <div class="step-title">Service Implementation</div>
+      <div class="step-desc">Our team gets to work building out your systems, SOPs, and workflows. Most clients are fully operational within 5–7 business days of onboarding.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">Step 03</div>
+      <div class="step-title">Continuous Support</div>
+      <div class="step-desc">We become a seamless extension of your team. Weekly check-ins, proactive communication, and ongoing optimization as your business evolves.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-tag">Client Stories</div>
+  <h2 class="section-title">What Our Clients Say</h2>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"OpsFlow has transformed the way we handle operations. Their expertise in CRM management has been invaluable — we haven't missed a follow-up since."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">JR</div>
+        <div>
+          <div class="testi-name">Jessica R.</div>
+          <div class="testi-role">CEO, Tech Consulting Firm</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"I went from spending 3 hours a day on admin to barely touching it. The automations they built have saved me 15+ hours every single week."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">MD</div>
+        <div>
+          <div class="testi-name">Marcus D.</div>
+          <div class="testi-role">Owner, Roofing Company</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Having OpsFlow handle our patient follow-ups and scheduling has been a game changer. Reliable, professional, and always one step ahead."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">SP</div>
+        <div>
+          <div class="testi-name">Dr. Sofia P.</div>
+          <div class="testi-role">Director, MedSpa Clinic</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-info">
+    <div>
+      <div class="section-tag">Get in Touch</div>
+      <h2 class="section-title">Ready to Simplify<br>Your Operations?</h2>
+      <p class="section-sub">Let's talk about how we can take the admin weight off your plate. Fill out the form and we'll get back to you within one business day.</p>
+    </div>
+    <div class="contact-items">
+      <div class="contact-item">
+        <div class="contact-item-icon">📞</div>
+        <div>
+          <div class="contact-item-label">Phone</div>
+          <div class="contact-item-val">123-456-7890</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">✉️</div>
+        <div>
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-val">info@opsflowsolutions.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div>
+          <div class="contact-item-label">Location</div>
+          <div class="contact-item-val">Serving clients worldwide</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-card">
+    <div class="form-row">
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">First Name *</label>
+        <input type="text" class="form-input" placeholder="Jane">
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">Last Name *</label>
+        <input type="text" class="form-input" placeholder="Smith">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">Email *</label>
+        <input type="email" class="form-input" placeholder="jane@company.com">
+      </div>
+      <div class="form-group" style="margin-bottom:0;">
+        <label class="form-label">Phone</label>
+        <input type="tel" class="form-input" placeholder="+1 (555) 000-0000">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message</label>
+      <textarea class="form-input" placeholder="Tell us about your business and what you need help with..."></textarea>
+    </div>
+    <button class="btn-submit">Send Message</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">
+        <div class="footer-logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#fff" stroke-width="2" fill="none"/></svg>
+        </div>
+        <span class="footer-logo-text">OpsFlow Solutions</span>
+      </div>
+      <p class="footer-about">We help business owners reclaim their time by managing the systems, admin, and operations that slow growth.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Navigation</div>
+      <div class="footer-links">
+        <a href="#">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-heading">Services</div>
+      <div class="footer-links">
+        <a href="#">Admin Support</a>
+        <a href="#">CRM Management</a>
+        <a href="#">Automation</a>
+        <a href="#">Social Media</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-heading">Legal</div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Accessibility</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 OpsFlow Solutions. All rights reserved.</span>
+    <div class="footer-socials">
+      <a class="social-btn" href="#">in</a>
+      <a class="social-btn" href="#">ig</a>
+      <a class="social-btn" href="#">fb</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
